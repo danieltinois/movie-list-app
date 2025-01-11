@@ -25,7 +25,7 @@ export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1); // Página atual
-  const [moviesPerPage] = useState<number>(5); // Filmes por página
+  const [moviesPerPage] = useState<number>(4); // Filmes por página
   const [totalMovies, setTotalMovies] = useState<number>(0); // Total de filmes
 
   useEffect(() => {
@@ -69,10 +69,12 @@ export default function Home() {
 
   // Função para filtrar filmes com base no termo de pesquisa
   const filteredMovies = movies.filter((movie) => {
-    return (
+    const matchesSearchTerm =
       movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      movie.author.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+      movie.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      movie.genre.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesSearchTerm;
   });
 
   // Pegar filmes da página atual
@@ -98,7 +100,7 @@ export default function Home() {
         <input
           type="text"
           className="form-control mb-3"
-          placeholder="Pesquisar por nome ou autor"
+          placeholder="Pesquisar por nome, autor ou gênero"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -159,7 +161,7 @@ export default function Home() {
 
         {/* Paginação */}
         <div className="mt-3">
-          <Pagination>
+          <Pagination className="d-flex justify-content-center align-items-center">
             {[...Array(Math.ceil(filteredMovies.length / moviesPerPage))].map(
               (_, index) => (
                 <Pagination.Item
