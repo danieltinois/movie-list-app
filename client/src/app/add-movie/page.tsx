@@ -1,9 +1,9 @@
 "use client";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import axios from "axios";
-import { Router } from "react-router-dom";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function AddMovie() {
   const [title, setTitle] = useState("");
